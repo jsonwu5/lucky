@@ -38,9 +38,9 @@ html, body {
     left: 20%;
     right: 20%;
     background: rgba(0, 0, 0, .6);
-    padding: 20px;
+    padding: 20px 260px;
     border-radius: 5px;
-    padding-right: 260px;
+    /*padding-right: 260px;*/
 }
 
 .luck-user {
@@ -184,7 +184,7 @@ html, body {
 
 .slotMachine .slot > span {
     position: absolute;
-    bottom: 0;
+    bottom: 35%;
     left: 0;
     line-height: 50px;
     text-decoration: none;
@@ -213,4 +213,8 @@ html, body {
     padding-top: 100%;
     background-position: center;
     background-size: cover;
+}
+
+.user-list{
+    left: 20px;
 }
