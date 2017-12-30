@@ -42,6 +42,12 @@ html, body {
     border-radius: 5px;
     /*padding-right: 260px;*/
 }
+@media only screen and (max-width: 1080px) {
+    .luck-content {
+        left: 10%;
+        right: 10%;
+    }
+}
 
 .luck-user {
     position: absolute;
@@ -53,9 +59,18 @@ html, body {
     border-radius: 5px;
 }
 
-.luck-user-list {
+.luck-list .luck-user-list {
     list-style-type: none;
     padding: 0 20px;
+    margin: 0;
+    overflow-y: scroll;
+    position: absolute;
+    top: 50px;
+    bottom: 70px;
+    width: 100%;
+}
+
+.user-list .luck-user-list{
     margin: 0;
     overflow-y: scroll;
     position: absolute;
@@ -69,12 +84,21 @@ html, body {
     position: relative;
 }
 
-.luck-user-list > li div.portrait {
+.luck-list .luck-user-list > li div.portrait {
     height: 30px;
     width: 30px;
     border-radius: 5px;
     background-position: center;
     background-size: cover;
+}
+
+.user-list .luck-user-list > li div.portrait{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background-position: center;
+    background-size: cover;
+    margin-top: -25px;
 }
 
 .luckuserName {
@@ -83,6 +107,10 @@ html, body {
     top: 0;
     left: 40px;
     right: 0;
+}
+
+.user-list .luckuserName{
+    top: -5px;
 }
 
 .luck-user-title {
@@ -190,6 +218,7 @@ html, body {
     text-decoration: none;
     background-color: rgba(0, 0, 0, .5);
     width: 100%;
+    font-size: 25px;
 }
 
 ::-webkit-scrollbar {

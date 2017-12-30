@@ -13,18 +13,25 @@ function openDialog() {
     layer.prompt({
         title: '导入名单',
         formType: 2,
-        value: '每一行为一个抽奖名额，多个名额请使用回车换行或空格隔开。',
+        value: '每一行为一个抽奖名额，多个名额请使用回车换行或空格隔开，仅支持QQ号导入。',
         area: ['800px', '350px'] // 自定义文本域宽高
     }, function (value, index, elem) {
         layer.close(index);
-        userList = value.split(/\D/);
+        value = value.split(/\D/);
+        // userList = value.split(/\D/);
+        // ucount = userList.length - 1;
+        var html = "", count = 0;
+        for (var i = 0; i < value.length; i++) {
+            console.log(value[i]);
+            // 判断是否为空字符串及回车、空格等特效字符 userList[i].replace(/(^s*)|(s*$)/g, "").length !== 0 &&
+            if(value[i] !== "" && value[i] !== " " && value[i] !== null){
+                html += '<li><div class="portrait" style="background-image:url(\'./img/head.jpg\')"></div><div class="luckuserName">' + value[i] + '</div></li>';
+                userList[count] = value[i];
+                count++;
+            }
+        }
         ucount = userList.length - 1;
         console.log(userList);
-        var html = "", count = 0;
-        for (var i = 0; i < userList.length; i++) {
-            html += '<li><div class="portrait" style="background-image:url(\'./img/head.jpg\')"></div><div class="luckuserName">' + userList[i] + '</div></li>';
-            count++;
-        }
         $("#userlist").append(html);
         $('#start').text('开始抽取三等奖');
         $('#prize').css('background-image','url(./img/FloralMug.png)');
@@ -38,7 +45,7 @@ function openDialog() {
 function startNum() {
     // 取一个随机数
     num = Math.floor(Math.random() * ucount);
-    console.log("ucount：%s,num：%s", ucount, num);
+    // console.log("ucount：%s,num：%s", ucount, num);
     $("#user").html(userList[num]);
     // 无限循环，0秒一次
     t = setTimeout(startNum, 0);
@@ -64,6 +71,7 @@ function start() {
             });
         } else {
             console.log("抽奖开始");
+            layer.closeAll();
             $('#start').text('停止');
             count++;        // 运行计数 +1
             runing = true;  // 设置运行状态
@@ -81,7 +89,6 @@ function start() {
         console.log("prizeImg:%s,userList[num]:%s",prizeImg,userList[num]);
         // 打印中奖者名单
         $('#luckUserList').prepend('<li><div class="portrait" style="background-image:url('+prizeImg+')"></div><div class="luckuserName" data-value="'+ count +'">' + userList[num] + '</div></li>');
-        console.log("count:%s",count);
         // 更新奖品图片
         switch (count){
             case 1:
@@ -99,11 +106,9 @@ function start() {
         }
         // 在userList数组中查找抽中的号码在数组中的索引
         var index = $.inArray(userList[num], userList);
-        console.log("userList:%o,index:%s",userList,index);
         // 将已中奖者从数组中"删除",防止二次中奖
         // 从第index个开始，删除一个并返回删除后的数组
         userList.splice(index, 1);
-        console.log("userList2:%o",userList);
     }
 }
 
