@@ -1,37 +1,63 @@
-﻿
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+<template>
+  <div class="luck-back">
+    <div class="luck-content ce-pack-end">
+      <div class="luck-user user-list">
+        <div class="luck-user-title">
+          <span>抽奖名单</span>
+        </div>
+        <ol id="userlist" class="luck-user-list"></ol>
+        <div class="luck-user-btn">
+          <a onclick="openDialog()">导入名单</a>
+        </div>
+      </div>
+      <div id="luckuser" class="slotMachine">
+        <div id="prize" class="slot">
+          <span id="user" class="name" style="display: none"></span>
+        </div>
+      </div>
+      <div class="luck-content-btn">
+        <a id="start" class="start" onclick="start()">开始</a>
+      </div>
+      <div class="luck-user luck-list">
+        <div class="luck-user-title">
+          <span>中奖名单</span>
+        </div>
+        <ul id="luckUserList" class="luck-user-list"></ul>
+        <div class="luck-user-btn">
+          <a id="drawList">中奖人</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: 'luck'
 }
+</script>
 
-html, body {
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-    font-family: "微软雅黑";
-}
+<style scoped>
 
-.ce-pack-end {
+  .ce-pack-end {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-box-pack: center;
     position: absolute;
     top: 0;
     left: 0;
-}
+  }
 
-.luck-back {
-    background-image: url(../img/back.jpg);
+  .luck-back {
+    background-image: url(./back.jpg);
     background-size: cover;
     background-position: top center;
     position: absolute;
     height: 100%;
     width: 100%;
     color: #fff;
-}
+  }
 
-.luck-content {
+  .luck-content {
     position: absolute;
     top: 20%;
     bottom: 20%;
@@ -41,15 +67,16 @@ html, body {
     padding: 20px 260px;
     border-radius: 5px;
     /*padding-right: 260px;*/
-}
-@media only screen and (max-width: 1080px) {
-    .luck-content {
-        left: 10%;
-        right: 10%;
-    }
-}
+  }
 
-.luck-user {
+  @media only screen and (max-width: 1080px) {
+    .luck-content {
+      left: 10%;
+      right: 10%;
+    }
+  }
+
+  .luck-user {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -57,9 +84,9 @@ html, body {
     width: 240px;
     background-color: rgba(255, 255, 255, .2);
     border-radius: 5px;
-}
+  }
 
-.luck-list .luck-user-list {
+  .luck-list .luck-user-list {
     list-style-type: none;
     padding: 0 20px;
     margin: 0;
@@ -68,52 +95,52 @@ html, body {
     top: 50px;
     bottom: 70px;
     width: 100%;
-}
+  }
 
-.user-list .luck-user-list{
+  .user-list .luck-user-list{
     margin: 0;
     overflow-y: scroll;
     position: absolute;
     top: 50px;
     bottom: 70px;
     width: 100%;
-}
+  }
 
-.luck-user-list > li {
+  .luck-user-list > li {
     margin-top: 10px;
     position: relative;
-}
+  }
 
-.luck-list .luck-user-list > li div.portrait {
+  .luck-list .luck-user-list > li div.portrait {
     height: 30px;
     width: 30px;
     border-radius: 5px;
     background-position: center;
     background-size: cover;
-}
+  }
 
-.user-list .luck-user-list > li div.portrait{
+  .user-list .luck-user-list > li div.portrait{
     height: 30px;
     width: 30px;
     border-radius: 15px;
     background-position: center;
     background-size: cover;
     margin-top: -25px;
-}
+  }
 
-.luckuserName {
+  .luckuserName {
     line-height: 30px;
     position: absolute;
     top: 0;
     left: 40px;
     right: 0;
-}
+  }
 
-.user-list .luckuserName{
+  .user-list .luckuserName{
     top: -5px;
-}
+  }
 
-.luck-user-title {
+  .luck-user-title {
     position: absolute;
     width: 90%;
     display: block;
@@ -122,9 +149,9 @@ html, body {
     left: 5%;
     color: #f5b43a;
     font-weight: bold;
-}
+  }
 
-.luck-user-title::before {
+  .luck-user-title::before {
     position: absolute;
     content: "";
     top: 100%;
@@ -132,9 +159,9 @@ html, body {
     width: 100%;
     background: -webkit-linear-gradient(left, rgba(248, 215, 59, 0), #f0d03a, rgba(248, 215, 59, 0));
     height: 1px;
-}
+  }
 
-.luck-user-btn {
+  .luck-user-btn {
     position: absolute;
     bottom: 20px;
     left: 5%;
@@ -142,9 +169,9 @@ html, body {
     text-align: center;
     line-height: 40px;
     cursor: pointer;
-}
+  }
 
-.luck-user-btn > a {
+  .luck-user-btn > a {
     background: #f29807;
     width: 100%;
     line-height: 40px;
@@ -152,26 +179,26 @@ html, body {
     border-radius: 5px;
     text-decoration: none;
     color: #fff;
-}
+  }
 
-.luck-user-btn > a:hover {
+  .luck-user-btn > a:hover {
     background: #fcb842;
-}
+  }
 
-.luck-title {
+  .luck-title {
     text-align: center;
     margin-bottom: 20px;
-}
+  }
 
-.luck-content-btn {
+  .luck-content-btn {
     width: 100%;
     text-align: center;
     line-height: 40px;
     padding-top: 20px;
     overflow: hidden;
-}
+  }
 
-.luck-content-btn a {
+  .luck-content-btn a {
     background: #f29807;
     width: 150px;
     text-decoration: none;
@@ -180,17 +207,17 @@ html, body {
     text-align: center;
     margin: 0 10px;
     cursor: pointer;
-}
+  }
 
-.luck-content-btn a:hover {
+  .luck-content-btn a:hover {
     background: #fcb842;
-}
+  }
 
-.luck-title {
+  .luck-title {
     font-size: 20px;
-}
+  }
 
-.slotMachine {
+  .slotMachine {
     width: 200px;
     height: 200px;
     display: block;
@@ -200,17 +227,18 @@ html, body {
     margin: 0 auto;
     border: #f5ad18 4px solid;
     position: relative;
-}
+  }
 
-.slotMachine .slot {
+  .slotMachine .slot {
     width: 100%;
     height: 100%;
+    background-image: url(./jfla2.jpg);
     background-size: cover;
     background-position: center;
     position: absolute;
-}
+  }
 
-.slotMachine .slot > span {
+  .slotMachine .slot > span {
     position: absolute;
     bottom: 35%;
     left: 0;
@@ -219,31 +247,33 @@ html, body {
     background-color: rgba(0, 0, 0, .5);
     width: 100%;
     font-size: 25px;
-}
+  }
 
-::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 10px;
     height: 16px;
     border-radius: 6px;
-}
+  }
 
-::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track {
     border-radius: 6px;
     background-color: rgba(255, 255, 255, .2);
-}
+  }
 
-::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     border-radius: 6px;
     background-color: #fff;
-}
+  }
 
-.luck-img {
+  .luck-img {
     width: 100%;
     padding-top: 100%;
     background-position: center;
     background-size: cover;
-}
+  }
 
-.user-list{
+  .user-list{
     left: 20px;
-}
+  }
+
+</style>
