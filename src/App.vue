@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!--<router-view/>-->
     <luck></luck>
   </div>
 </template>
@@ -23,10 +23,12 @@ export default {
     box-sizing: border-box;
   }
 
-  html, body {
+  html, body, #app {
     padding: 0;
     margin: 0;
     font-size: 14px;
     font-family: "微软雅黑";
+    width: 100%;
+    height: 100%;
   }
 </style>
