@@ -477,7 +477,9 @@ export default {
 
   .ce-pack-end {
     display: -webkit-box;
+    /*! autoprefixer: off */
     -webkit-box-orient: vertical;
+    /*! autoprefixer: on */
     -webkit-box-pack: center;
     position: absolute;
     top: 0;
