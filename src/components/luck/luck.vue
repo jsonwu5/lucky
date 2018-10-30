@@ -309,8 +309,17 @@ export default {
   }
 }
 </script>
-
 <style>
+  .import-btn .xlsx-button {
+    border: 0 solid #20a0ff !important;
+    background-color: #20a0ff00 !important;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<style scoped>
 
   .luckyText {
     width: 400px;
@@ -611,12 +620,6 @@ export default {
     border-radius: 5px;
     text-decoration: none;
     color: #fff;
-    font-size: 16px;
-  }
-
-  .import-btn .xlsx-button {
-    border: 0 solid #20a0ff !important;
-    background-color: #20a0ff00 !important;
     font-size: 16px;
   }
 
