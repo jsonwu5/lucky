@@ -1,5 +1,6 @@
 <template>
   <div class="luck-back">
+    <div class="guide"><a href="https://docs.qq.com/doc/DT1BYdmlwWEZYcmRH" target="_blank">抽奖工具使用指南</a></div>
     <div class="modal" v-show="show">
       <div class="modal-cover"></div>
       <div class="modal-content">
@@ -340,6 +341,23 @@ export default {
 
 <style scoped>
 
+  .guide {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .guide a:link, .guide a:visited, .guide a:active {
+    color: white;
+  }
+
+  .guide a:hover {
+    color: #f29807;
+  }
+
   .luckyText {
     width: 400px;
     height: 200px;
@@ -373,6 +391,34 @@ export default {
     width: 35%;
     min-width: 250px;
     margin: 0 auto;
+  }
+
+  @media screen and (min-width: 1366px) {
+    .setting {
+      padding: 50px 20px 20px 20px;
+      width: 60%;
+    }
+  }
+
+  @media screen and (min-width: 1600px) {
+    .setting {
+      padding: 50px 20px 20px 20px;
+      width: 45%;
+    }
+  }
+
+  @media screen and (min-width: 1900px) {
+    .setting {
+      padding: 50px 20px 20px 20px;
+      width: 55%;
+    }
+  }
+
+  @media screen and (min-width: 2200px) {
+    .setting {
+      padding: 80px 20px 20px 20px;
+      width: 35%;
+    }
   }
 
   .setting .menu {
@@ -506,30 +552,34 @@ export default {
   }
 
   .luck-back {
+    height: 100%;
+    width: 100%;
+    min-width: 1366px;
+    min-height: 768px;
     background-image: url(./back.jpg);
     background-size: cover;
     background-position: top center;
     position: absolute;
-    height: 100%;
-    width: 100%;
     color: #fff;
   }
 
   .luck-content {
     position: absolute;
-    top: 20%;
-    bottom: 20%;
-    left: 20%;
-    right: 20%;
+    top: 10%;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
     background: rgba(0, 0, 0, .6);
     padding: 20px 260px;
     border-radius: 5px;
   }
 
-  @media only screen and (max-width: 1080px) {
+  @media screen and (min-width: 1900px) {
     .luck-content {
-      left: 10%;
-      right: 10%;
+      top: 20%;
+      bottom: 20%;
+      left: 20%;
+      right: 20%;
     }
   }
 
@@ -663,7 +713,7 @@ export default {
     display: inline-block;
     color: #fff;
     text-align: center;
-    margin: 0 10px;
+    /*margin: 0 10px;*/
     cursor: pointer;
     font-size: 16px;
   }

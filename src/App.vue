@@ -30,5 +30,7 @@ export default {
     font-family: "微软雅黑";
     width: 100%;
     height: 100%;
+    min-width: 1366px;
+    min-height: 768px;
   }
 </style>
