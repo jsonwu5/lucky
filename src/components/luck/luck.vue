@@ -203,13 +203,16 @@ export default {
       }
       // 显示滚动字幕
       this.rollingSubtitle = true
-      console.log('滚动字幕')
-      // 生产随机数，并滚动名单展示出来
+      let count = 0
+      // 生产随机数，并将随机到的用户显示在滚动字幕上。
       this.timer = setInterval(() => {
-        let num = Math.floor(Math.random() * this.userList.length) - 1
-        // 开始滚动名单
+        // Math.random() * (21 - 1) 生成一个0至20的随机数（带小数）
+        // Math.round(Math.random() * (21 - 1)) 将生成的随机小数四舍五入取整数，即为中奖用户在this.userList数组里的下标
+        let num = Math.round(Math.random() * (this.userList.length - 1))
+        count++
+        console.log('%i，随机数：%i, 用户数：%s', count, num, this.userList.length)
+        // 显示用户到字幕上
         this.rollTitle = this.userList[num]
-        // console.log('随机数：%i, user：%s', num, this.rollTitle)
       }, 0)
       // 设置一个状态，表示正在抽奖中
       this.isStart = true
