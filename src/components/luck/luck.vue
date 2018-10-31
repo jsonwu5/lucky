@@ -112,6 +112,8 @@ export default {
       rollingSubtitle: false,
       // 滚动中的标题
       rollTitle: '',
+      // 中奖用户在数组中的下标
+      luckIndex: '',
       // 保存的到名单的下标
       awardsNum: 0,
       // 中奖名单
@@ -151,6 +153,7 @@ export default {
     },
     // 导入表格数据到抽奖名单中
     importTable () {
+      let list = []
       if (this.selectHead !== 'unselected') {
         let arr = this.tableData.body
         let num = 0
@@ -160,13 +163,14 @@ export default {
           for (let j in arr[i]) {
             // 只取指定列的数据
             if (j === this.selectHead) {
-              this.userList.push(arr[i][j])
+              list.push(arr[i][j])
               // 跳出当前循环
               break
             }
           }
           num++
         }
+        this.userList = list
         // 遍历完毕后关闭模态框
         if (num === arr.length) {
           console.log(this.userList.length)
@@ -209,6 +213,7 @@ export default {
         // Math.random() * (21 - 1) 生成一个0至20的随机数（带小数）
         // Math.round(Math.random() * (21 - 1)) 将生成的随机小数四舍五入取整数，即为中奖用户在this.userList数组里的下标
         let num = Math.round(Math.random() * (this.userList.length - 1))
+        this.luckIndex = num
         count++
         console.log('%i，随机数：%i, 用户数：%s', count, num, this.userList.length)
         // 显示用户到字幕上
@@ -221,9 +226,16 @@ export default {
     start () {
       // 字幕在滚动时，抽取一名幸运用户
       if (this.rollingSubtitle === true) {
-        console.log('中奖用户：%s', this.rollTitle)
+        // 返回一个数组副本，防止直接操作数组
+        let userList = this.userList.slice()
+        let luckyUser = userList[this.luckIndex]
+        console.log('中奖用户：%s', luckyUser)
         // 添加中奖用户到中奖名单
-        this.luckyUserList[this.awardsNum - 1].lucky.push(this.rollTitle)
+        this.luckyUserList[this.awardsNum - 1].lucky.push(luckyUser)
+        // 从抽奖名单中移除已中奖用户，防止重复中奖
+        userList.splice(this.luckIndex, 1)
+        // 更新抽奖名单数组
+        this.userList = userList
         // 取奖项设置里设置的奖品数量
         let num = this.luckyUserList[this.awardsNum - 1].awards.count
         // 取中奖名单里的用户数量
@@ -261,25 +273,29 @@ export default {
       let grade = document.getElementById('grade').value
       let details = document.getElementById('details').value
       let count = document.getElementById('count').value
-
+      // 校验正整数的正则
       let r = /^[0-9]*[1-9][0-9]*$/
       // 当是三个输入框的值都不为空时，保存为临时数据
       if (grade && details && count) {
         if (r.test(count) === false) {
           alert('请输入数字')
         } else {
-          let data = {
-            awards: {
-              grade: grade,
-              details: details,
-              count: count
-            },
-            lucky: []
+          if (count > this.userList.length) {
+            alert('奖品数量不能大于抽奖名单数量')
+          } else {
+            let data = {
+              awards: {
+                grade: grade,
+                details: details,
+                count: count
+              },
+              lucky: []
+            }
+            // 存入中奖名单
+            this.luckyUserList.push(data)
+            // 保存下标位置
+            this.awardsNum++
           }
-          // 存入中奖名单
-          this.luckyUserList.push(data)
-          // 保存下标位置
-          this.awardsNum++
         }
       } else {
         alert('还有未填写的内容！')
