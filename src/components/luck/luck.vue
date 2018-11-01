@@ -1,5 +1,5 @@
 <template>
-  <div class="luck-back">
+  <div class="lucky-back">
     <div class="guide"><a href="https://docs.qq.com/doc/DT1BYdmlwWEZYcmRH" target="_blank">抽奖工具使用指南</a></div>
     <div class="modal" v-show="show">
       <div class="modal-cover"></div>
@@ -27,29 +27,29 @@
         </div>
       </div>
     </div>
-    <div class="luck-content ce-pack-end">
-      <div class="luck-user user-list">
-        <div class="luck-user-title">
+    <div class="lucky-content ce-pack-end">
+      <div class="lucky-user user-list">
+        <div class="lucky-user-title">
           <span>抽奖名单</span>
         </div>
-        <ol id="userlist" class="luck-user-list">
+        <ol id="userlist" class="lucky-user-list">
           <template v-for="(item, i) in userList" v-show="userList.length>0">
             <li :key="i">
               <div class="portrait"></div>
-              <div class="luckuserName">{{item}}</div>
+              <div class="luckyUserName">{{item}}</div>
             </li>
           </template>
         </ol>
-        <div class="luck-user-btn">
+        <div class="lucky-user-btn">
           <vue-xlsx-table class="import-btn" @on-select-file="handleOk">导入名单</vue-xlsx-table>
         </div>
       </div>
-      <div id="luckuser" class="slotMachine">
+      <div class="slotMachine">
         <div id="prize" class="slot">
           <span id="user" class="name" v-show="rollingSubtitle">{{rollTitle}}</span>
         </div>
       </div>
-      <div class="luck-content-btn">
+      <div class="lucky-content-btn">
         <a id="start" class="start" @click="start()">{{rollingSubtitle === false ? '开始':'抽取幸运用户'}}</a>
       </div>
       <div class="setting">
@@ -66,25 +66,25 @@
             <label>奖品数量：</label>
             <input id="count" placeholder="奖品数量"/>
           </div>
-          <div class="line luck-content-btn">
+          <div class="line lucky-content-btn">
             <a @click="save()">保存设置</a>
           </div>
         </div>
       </div>
-      <div class="luck-user luck-list">
-        <div class="luck-user-title">
+      <div class="lucky-user lucky-list">
+        <div class="lucky-user-title">
           <span>中奖名单</span>
         </div>
-        <ul id="luckUserList" class="luck-user-list">
+        <ul id="luckUserList" class="lucky-user-list">
           <template v-for="(item, i) in luckyUserList">
             <li :key="i" class="awards-title">{{item.awards.grade}}：{{item.awards.details}}*{{item.awards.count}}</li>
             <li :key="luckyUser" v-for="luckyUser in item.lucky">
               <div class="portrait"></div>
-              <div class="luckuserName">{{luckyUser}}</div>
+              <div class="luckyUserName">{{luckyUser}}</div>
             </li>
           </template>
         </ul>
-        <div class="luck-user-btn">
+        <div class="lucky-user-btn">
           <a id="drawList" @click="exportList()">导出名单</a>
         </div>
       </div>
@@ -114,7 +114,7 @@ export default {
       // 滚动中的标题
       rollTitle: '',
       // 中奖用户在数组中的下标
-      luckIndex: '',
+      luckyIndex: '',
       // 保存的到名单的下标
       awardsNum: 0,
       // 中奖名单
@@ -139,7 +139,7 @@ export default {
   methods: {
     // 导入名单，本地打开xlsx表格文件
     handleOk (convertedData) {
-      console.log(convertedData)
+      console.log('表格源数据: %o', convertedData)
       if (convertedData) {
         this.tableData = convertedData
         this.headArray = convertedData.header
@@ -174,7 +174,6 @@ export default {
         this.userList = list
         // 遍历完毕后关闭模态框
         if (num === arr.length) {
-          console.log(this.userList.length)
           this.closeModal()
         }
       } else {
@@ -193,7 +192,6 @@ export default {
       }
       // 当状态为true时，不再生成随机数
       if (this.isStart) {
-        console.log('已有定时器')
         return
       }
       if (this.luckyUserList.length > 0) {
@@ -208,15 +206,15 @@ export default {
       }
       // 显示滚动字幕
       this.rollingSubtitle = true
-      let count = 0
+      // let count = 0
       // 生产随机数，并将随机到的用户显示在滚动字幕上。
       this.timer = setInterval(() => {
         // Math.random() * (21 - 1) 生成一个0至20的随机数（带小数）
         // Math.round(Math.random() * (21 - 1)) 将生成的随机小数四舍五入取整数，即为中奖用户在this.userList数组里的下标
         let num = Math.round(Math.random() * (this.userList.length - 1))
-        this.luckIndex = num
-        count++
-        console.log('%i，随机数：%i, 用户数：%s', count, num, this.userList.length)
+        this.luckyIndex = num
+        // count++
+        // console.log('已生成第%i个随机数：%i', count, num)
         // 显示用户到字幕上
         this.rollTitle = this.userList[num]
       }, 0)
@@ -229,12 +227,12 @@ export default {
       if (this.rollingSubtitle === true) {
         // 返回一个数组副本，防止直接操作数组
         let userList = this.userList.slice()
-        let luckyUser = userList[this.luckIndex]
-        console.log('中奖用户：%s', luckyUser)
+        let luckyUser = userList[this.luckyIndex]
+        console.log('中奖用户：%s，下标：%s', luckyUser, this.luckyIndex)
         // 添加中奖用户到中奖名单
         this.luckyUserList[this.awardsNum - 1].lucky.push(luckyUser)
         // 从抽奖名单中移除已中奖用户，防止重复中奖
-        userList.splice(this.luckIndex, 1)
+        userList.splice(this.luckyIndex, 1)
         // 更新抽奖名单数组
         this.userList = userList
         // 取奖项设置里设置的奖品数量
@@ -245,12 +243,10 @@ export default {
         if (parseInt(num) === luckyLen) {
           // 停止滚动字幕
           this.rollingSubtitle = false
-          console.log(this.timer)
           // 清楚定时器
           clearInterval(this.timer)
           // 本次抽奖结束，更新状态为默认
           this.isStart = false
-          console.log(this.timer)
           return
         }
       }
@@ -551,7 +547,7 @@ export default {
     left: 0;
   }
 
-  .luck-back {
+  .lucky-back {
     height: 100%;
     width: 100%;
     min-width: 1366px;
@@ -563,7 +559,7 @@ export default {
     color: #fff;
   }
 
-  .luck-content {
+  .lucky-content {
     position: absolute;
     top: 10%;
     bottom: 10%;
@@ -575,7 +571,7 @@ export default {
   }
 
   @media screen and (min-width: 1900px) {
-    .luck-content {
+    .lucky-content {
       top: 20%;
       bottom: 20%;
       left: 20%;
@@ -583,7 +579,7 @@ export default {
     }
   }
 
-  .luck-user {
+  .lucky-user {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -593,7 +589,7 @@ export default {
     border-radius: 5px;
   }
 
-  .luck-list .luck-user-list {
+  .lucky-list .lucky-user-list {
     list-style-type: none;
     padding: 0 20px;
     margin: 0;
@@ -604,7 +600,7 @@ export default {
     width: 100%;
   }
 
-  .user-list .luck-user-list {
+  .user-list .lucky-user-list {
     margin: 0;
     overflow-y: scroll;
     position: absolute;
@@ -613,16 +609,16 @@ export default {
     width: 100%;
   }
 
-  .luck-user-list > li {
+  .lucky-user-list > li {
     margin-top: 10px;
     position: relative;
   }
 
-  #userlist.luck-user-list > li {
+  #userlist.lucky-user-list > li {
     margin-left: 20px;
   }
 
-  .luck-list .luck-user-list > li div.portrait {
+  .lucky-list .lucky-user-list > li div.portrait {
     height: 30px;
     width: 30px;
     border-radius: 5px;
@@ -630,7 +626,7 @@ export default {
     background-size: cover;
   }
 
-  .user-list .luck-user-list > li div.portrait {
+  .user-list .lucky-user-list > li div.portrait {
     height: 30px;
     width: 30px;
     border-radius: 15px;
@@ -639,7 +635,7 @@ export default {
     margin-top: -25px;
   }
 
-  .luckuserName {
+  .luckyUserName {
     line-height: 30px;
     position: absolute;
     top: 0;
@@ -647,11 +643,11 @@ export default {
     right: 0;
   }
 
-  .user-list .luckuserName {
+  .user-list .luckyUserName {
     top: -5px;
   }
 
-  .luck-user-title {
+  .lucky-user-title {
     position: absolute;
     width: 90%;
     display: block;
@@ -663,7 +659,7 @@ export default {
     font-size: 18px;
   }
 
-  .luck-user-title::before {
+  .lucky-user-title::before {
     position: absolute;
     content: "";
     top: 100%;
@@ -673,7 +669,7 @@ export default {
     height: 1px;
   }
 
-  .luck-user-btn {
+  .lucky-user-btn {
     position: absolute;
     bottom: 20px;
     left: 5%;
@@ -683,7 +679,7 @@ export default {
     cursor: pointer;
   }
 
-  .luck-user-btn > a, .import-btn {
+  .lucky-user-btn > a, .import-btn {
     background: #f29807;
     width: 100%;
     line-height: 40px;
@@ -694,11 +690,11 @@ export default {
     font-size: 16px;
   }
 
-  .luck-user-btn > a:hover, .import-btn:hover, .lucky-btn:hover {
+  .lucky-user-btn > a:hover, .import-btn:hover, .lucky-btn:hover {
     background: #fcb842;
   }
 
-  .luck-content-btn {
+  .lucky-content-btn {
     width: 100%;
     text-align: center;
     line-height: 40px;
@@ -706,7 +702,7 @@ export default {
     overflow: hidden;
   }
 
-  .luck-content-btn a {
+  .lucky-content-btn a {
     background: #f29807;
     width: 200px;
     text-decoration: none;
@@ -718,7 +714,7 @@ export default {
     font-size: 16px;
   }
 
-  .luck-content-btn a:hover {
+  .lucky-content-btn a:hover {
     background: #fcb842;
   }
 
