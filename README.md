@@ -1,4 +1,4 @@
-# luck
+# Lucky
 
 > A lucky draw gadget page
 
